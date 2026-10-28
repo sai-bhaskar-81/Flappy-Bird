@@ -1,0 +1,303 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#080914">
+
+    <title>GLITCH//RUN</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+            background: #080914;
+            color: #eafaff;
+            font-family: "Courier New", monospace;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 24px;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 24px;
+        }
+
+        h1 {
+            font-size: clamp(2rem, 6vw, 4rem);
+            letter-spacing: 8px;
+            color: #00f7ff;
+            text-shadow: 0 0 12px #00f7ff80;
+        }
+
+        .subtitle {
+            margin-top: 10px;
+            color: #a0a6c7;
+            font-size: 12px;
+            letter-spacing: 4px;
+        }
+
+        .game-wrapper {
+            width: 100%;
+            max-width: 900px;
+            border: 1px solid #00f7ff70;
+            background: #0c1020;
+            box-shadow: 0 0 30px #00f7ff15;
+            padding: 12px;
+        }
+
+        .hud {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 12px;
+            padding: 10px 8px 16px;
+            font-size: 12px;
+            color: #00f7ff;
+            letter-spacing: 2px;
+        }
+
+        .status {
+            color: #b4ffca;
+        }
+
+        canvas {
+            display: block;
+            width: 100%;
+            background: #090b18;
+            border: 1px solid #222b48;
+        }
+
+        .instructions {
+            margin-top: 18px;
+            text-align: center;
+            color: #a0a6c7;
+            font-size: 12px;
+            line-height: 2;
+        }
+
+        kbd {
+            color: #00f7ff;
+            border: 1px solid #00f7ff50;
+            padding: 3px 6px;
+            margin: 0 2px;
+        }
+
+        footer {
+            margin-top: 22px;
+            font-size: 10px;
+            color: #555d7c;
+            letter-spacing: 3px;
+        }
+
+        @media (max-width: 500px) {
+            body {
+                padding: 12px;
+            }
+
+            .game-wrapper {
+                padding: 6px;
+            }
+
+            .hud {
+                font-size: 10px;
+                letter-spacing: 1px;
+            }
+
+            .subtitle {
+                letter-spacing: 2px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1>GLITCH//RUN</h1>
+        <p class="subtitle">WELCOME TO THE SIMULATION</p>
+    </header>
+
+    <main class="game-wrapper">
+        <div class="hud">
+            <span>PLAYER: <span class="status">ONLINE</span></span>
+            <span>SECTOR 01</span>
+            <span>BUILD 0.1</span>
+        </div>
+
+        <canvas
+            id="game"
+            width="860"
+            height="480"
+            aria-label="GLITCH RUN game arena"
+        ></canvas>
+    </main>
+
+    <div class="instructions">
+        MOVE WITH
+        <kbd>W</kbd><kbd>A</kbd><kbd>S</kbd><kbd>D</kbd>
+        OR <kbd>↑</kbd><kbd>←</kbd><kbd>↓</kbd><kbd>→</kbd>
+        <br>
+        <span id="message">SIMULATION READY // AWAITING INPUT</span>
+    </div>
+
+    <footer>GLITCH//RUN — SYSTEM INITIALIZED</footer>
+
+    <script>
+        const canvas = document.getElementById("game");
+        const ctx = canvas.getContext("2d");
+        const message = document.getElementById("message");
+
+        const keys = {};
+
+        const player = {
+            x: canvas.width / 2,
+            y: canvas.height / 2,
+            size: 16,
+            speed: 4
+        };
+
+        // Track keyboard input.
+        window.addEventListener("keydown", (event) => {
+            const key = event.key.toLowerCase();
+
+            if (
+                ["arrowup", "arrowdown", "arrowleft", "arrowright"].includes(key)
+            ) {
+                event.preventDefault();
+            }
+
+            keys[key] = true;
+
+            if (
+                ["w", "a", "s", "d", "arrowup", "arrowdown",
+                 "arrowleft", "arrowright"].includes(key)
+            ) {
+                message.textContent = "PLAYER INPUT DETECTED // SYSTEM ONLINE";
+            }
+        });
+
+        window.addEventListener("keyup", (event) => {
+            keys[event.key.toLowerCase()] = false;
+        });
+
+        window.addEventListener("blur", () => {
+            for (const key in keys) {
+                keys[key] = false;
+            }
+        });
+
+        // Draw the neon arena.
+        function drawArena() {
+            ctx.fillStyle = "#090b18";
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            // Background grid.
+            ctx.strokeStyle = "#18213b";
+            ctx.lineWidth = 1;
+
+            for (let x = 0; x <= canvas.width; x += 40) {
+                ctx.beginPath();
+                ctx.moveTo(x, 0);
+                ctx.lineTo(x, canvas.height);
+                ctx.stroke();
+            }
+
+            for (let y = 0; y <= canvas.height; y += 40) {
+                ctx.beginPath();
+                ctx.moveTo(0, y);
+                ctx.lineTo(canvas.width, y);
+                ctx.stroke();
+            }
+
+            // Neon arena border.
+            ctx.strokeStyle = "#00f7ff";
+            ctx.shadowColor = "#00f7ff";
+            ctx.shadowBlur = 12;
+            ctx.lineWidth = 2;
+            ctx.strokeRect(8, 8, canvas.width - 16, canvas.height - 16);
+            ctx.shadowBlur = 0;
+
+            // Center marker.
+            ctx.fillStyle = "#ff3df2";
+            ctx.globalAlpha = 0.7;
+            ctx.fillRect(
+                canvas.width / 2 - 2,
+                canvas.height / 2 - 2,
+                4,
+                4
+            );
+            ctx.globalAlpha = 1;
+        }
+
+        // Draw the player as a glowing neon square.
+        function drawPlayer() {
+            ctx.save();
+
+            ctx.fillStyle = "#00f7ff";
+            ctx.shadowColor = "#00f7ff";
+            ctx.shadowBlur = 22;
+
+            ctx.fillRect(
+                player.x - player.size / 2,
+                player.y - player.size / 2,
+                player.size,
+                player.size
+            );
+
+            ctx.restore();
+        }
+
+        // Update the player's position.
+        function update() {
+            if (keys["w"] || keys["arrowup"]) {
+                player.y -= player.speed;
+            }
+
+            if (keys["s"] || keys["arrowdown"]) {
+                player.y += player.speed;
+            }
+
+            if (keys["a"] || keys["arrowleft"]) {
+                player.x -= player.speed;
+            }
+
+            if (keys["d"] || keys["arrowright"]) {
+                player.x += player.speed;
+            }
+
+            // Keep the player inside the arena.
+            const half = player.size / 2;
+
+            player.x = Math.max(
+                18 + half,
+                Math.min(canvas.width - 18 - half, player.x)
+            );
+
+            player.y = Math.max(
+                18 + half,
+                Math.min(canvas.height - 18 - half, player.y)
+            );
+        }
+
+        // Main game loop.
+        function gameLoop() {
+            update();
+            drawArena();
+            drawPlayer();
+
+            requestAnimationFrame(gameLoop);
+        }
+
+        gameLoop();
+    </script>
+</body>
+</html>

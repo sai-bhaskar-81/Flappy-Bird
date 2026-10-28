@@ -1,0 +1,74 @@
+
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>GLITCH//RUN — Build 0.5</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="shell">      
+    <header class="topbar">
+      <div>
+        <p class="eyebrow">ARCADE SURVIVAL // BUILD 0.5</p>
+        <h1>GLITCH<span>//</span>RUN</h1>
+      </div>
+      <div class="build-tag">SYSTEM ONLINE</div>
+    </header>
+
+    <section class="hud" aria-label="Game status">
+      <div class="stat">
+        <span class="stat-label">HEALTH</span>
+        <strong id="healthValue">100</strong>
+        <div class="bar"><div id="healthBar" class="bar-fill health-fill"></div></div>
+      </div>
+      <div class="stat">
+        <span class="stat-label">SCORE</span>
+        <strong id="scoreValue">0</strong>
+      </div>
+      <div class="stat">
+        <span class="stat-label">THREATS</span>
+        <strong id="threatValue">0</strong>
+      </div>
+      <div class="stat">
+        <span class="stat-label">DASH</span>
+        <strong id="dashValue">READY</strong>
+        <div class="bar"><div id="dashBar" class="bar-fill dash-fill"></div></div>
+      </div>
+      <div class="stat">
+        <span class="stat-label">GLITCH</span>
+        <strong id="glitchValue">STABLE</strong>
+      </div>
+    </section>
+
+    <section class="game-frame">
+      <canvas id="gameCanvas" width="900" height="520"
+        aria-label="GLITCH RUN game arena"></canvas>
+      <div id="overlay" class="overlay">
+        <p class="eyebrow">SURVIVE THE SYSTEM</p>
+        <h2>READY TO RUN?</h2>
+        <p>Move. Dash. Collect energy. Stay alive.</p>
+        <button id="startButton" type="button">START RUN</button>
+      </div>
+    </section>
+
+    <footer class="controls">
+      <p>
+        <kbd>W</kbd><kbd>A</kbd><kbd>S</kbd><kbd>D</kbd>
+        / <kbd>↑</kbd><kbd>←</kbd><kbd>↓</kbd><kbd>→</kbd> MOVE
+      </p>
+      <p><kbd>SPACE</kbd> DASH</p>
+    p><kbd>J</kbd> / LEFT-CLICK SHOOT</p>
+      <p><span class="orb-key"></span> ENERGY ORB: +100 SCORE / +8 HEALTH</p>
+    </footer>
+
+    <p class="message" id="message" aria-live="polite">
+      SYSTEM READY — PRESS START RUN
+    </p>
+  </main>
+
+  <script src="game.js"></script>
+</body>
+</html>
+

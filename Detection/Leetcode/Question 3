@@ -1,0 +1,28 @@
+dict = {}
+
+ans = [] 
+
+for i in range(len(s)): 
+    for j in range(len(s)): 
+        temp = s[i:j+1]
+        ans.append(temp)
+        if temp in dict:
+            dict[temp] += 1
+        else:
+            dict[temp] = 1
+
+
+ans.sort()
+
+def rep(): 
+
+    for i in ans: 
+        if dict[i] = max(dict.values()): 
+            return(i)
+        else: 
+            ans.remove(i)
+            rep(ans)
+
+
+return max(dict.values())
+
