@@ -2,6 +2,8 @@
 
 Welcome to my repository! 👋
 
+First the playable link is: https://sai-bhaskar-81.github.io/Flappy-Bird/Glitch%20Run%20and%20Face%20ID/Glitch_Run/
+
 This repository represents the beginning of my coding journey. **This was my first time learning to code**, and I used this opportunity to explore programming, experiment with ideas, build games, and learn by creating things myself.
 
 From simple mini-games like Flappy Bird to a neon survival game and a face-detection project with futuristic effects, every project has been a step forward in my learning journey.
